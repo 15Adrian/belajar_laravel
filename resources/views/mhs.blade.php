@@ -14,6 +14,7 @@
           <th>NIM</th>
           <th>Nama</th>
           <th>Kelas</th>
+          <th>Foto</th>
           <th>Aksi</th>
         </tr>
       </thead>
@@ -24,6 +25,16 @@
             <td>{{ $item->nim }}</td>
             <td>{{ $item->nama }}</td>
             <td>{{ $item->kelas }}</td>
+            
+            {{-- <td><img src="{{ asset('foto/'.$item['foto']) }}" width="100%"></td> --}}
+            <td>
+              @if($item->foto)
+                <img src="{{ asset('foto/' . $item->foto) }}" width="50">
+              @else
+                <span>-</span>
+              @endif
+            </td>
+
             <td>
               <a href="{{ route('mahasiswa.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
 

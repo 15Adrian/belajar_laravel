@@ -7,7 +7,7 @@
     <h3 class="mb-4">✏️ Edit Data Mahasiswa</h3>
 
     {{-- Form Edit --}}
-    <form action="{{ route('mahasiswa.update', $data->id) }}" method="POST">
+    <form action="{{ route('mahasiswa.update', $data->id) }}" method="POST" enctype="multipart/form-data">
       @csrf
       @method('PUT')
 

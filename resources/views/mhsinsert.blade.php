@@ -6,7 +6,7 @@
   <div class="container mt-4">
     <h3 class="mb-4">Input Data Mahasiswa Baru</h3>
 
-    <form action="{{ route('mahasiswa.store') }}" method="POST">
+    <form action="{{ route('mahasiswa.store') }}" method="POST"  enctype="multipart/form-data">
       @csrf
 
       <div class="mb-3">

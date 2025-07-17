@@ -21,16 +21,20 @@ class Mhscontroller extends Controller
         $request->validate([
             'nim'=>'required|min:5|max:10|unique:App\Models\MahasiswaModel,nim',
             'nama'=>'required|min:5',
+            'kelas'=>'required|string|max:50',
             'foto'=>'nullable|mimes:jpg,png|max:1024',
         ]);
 
         if($request->hasFile('foto')){
-            $validated['foto'] = $request->file('foto')->store('foto','public');
+            $fileName = $request->foto->getClientOriginalName();
+            $request->foto->move(public_path('foto'),$fileName);
+            // $validated['foto'] = $request->file('foto')->store('foto','public');
         }
         $data = new MahasiswaModel();
         $data['nim'] = $request->nim;
         $data['nama'] = $request->nama;
         $data['kelas'] = $request->kelas;
+        $data['foto'] = $fileName;
         $data->save();
         return redirect()->route('mhs-baru');
         // INSERT INTO tabel_mhs VALUES ('','','');
@@ -53,7 +57,15 @@ class Mhscontroller extends Controller
             'nim' => 'required|string|unique:mahasiswa,nim|max:10',
             'nama' => 'required|string|max:225',
             'kelas' => 'required|string|max:50',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        if ($request->hasFile('foto')) {
+        $file = $request->file('foto');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('foto'), $fileName); // disimpan di public/foto
+        $validatedData['foto'] = $fileName;
+        }
 
         MahasiswaModel::create($validatedData);
 
@@ -87,9 +99,21 @@ class Mhscontroller extends Controller
             'nim' => 'required|string|max:10|unique:mahasiswa,nim,' . $id,
             'nama' => 'required|string|max:225',
             'kelas' => 'required|string|max:50',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $mahasiswa = MahasiswaModel::findOrFail($id);
+
+        if ($request->hasFile('foto')) {
+            if ($mahasiswa->foto && file_exists(public_path('foto/' . $mahasiswa->foto))) {
+            unlink(public_path('foto/' . $mahasiswa->foto));
+        }
+
+        $file = $request->file('foto');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('foto'), $fileName);
+        $validatedData['foto'] = $fileName;
+    }
         $mahasiswa->update($validatedData);
 
         return redirect()->route('mahasiswa.index');
