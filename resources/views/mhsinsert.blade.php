@@ -11,7 +11,7 @@
 
       <div class="mb-3">
         <label for="nim" class="form-label">NIM</label>
-        <input name="nim" type="text" class="form-control @error('nim') is-invalid @enderror"
+        <input name="nim" type="number" class="form-control @error('nim') is-invalid @enderror"
               value="{{ old('nim') }}" placeholder="Masukkan NIM">
         @error('nim')
           <div class="invalid-feedback">{{ $message }}</div>
@@ -34,6 +34,11 @@
         @error('kelas')
           <div class="invalid-feedback">{{ $message }}</div>
         @enderror
+      </div>
+
+      <div class="mb 3">
+        <label for="foto" class="form-label">foto</label>
+        <img src="" alt="">
       </div>
 
       <button type="submit" class="btn btn-primary">Simpan</button>
