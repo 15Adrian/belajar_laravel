@@ -16,6 +16,26 @@ class Mhscontroller extends Controller
         return view('mhs', compact('semuaData'));
     }
 
+    public function saveData(Request $request)
+    {
+        $request->validate([
+            'nim'=>'required|min:5|max:10|unique:App\Models\MahasiswaModel,nim',
+            'nama'=>'required|min:5',
+            'foto'=>'nullable|mimes:jpg,png|max:1024',
+        ]);
+
+        if($request->hasFile('foto')){
+            $validated['foto'] = $request->file('foto')->store('foto','public');
+        }
+        $data = new MahasiswaModel();
+        $data['nim'] = $request->nim;
+        $data['nama'] = $request->nama;
+        $data['kelas'] = $request->kelas;
+        $data->save();
+        return redirect()->route('mhs-baru');
+        // INSERT INTO tabel_mhs VALUES ('','','');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

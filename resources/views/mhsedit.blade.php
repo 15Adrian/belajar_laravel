@@ -38,6 +38,11 @@
         @enderror
       </div>
 
+      <div class="mb-3">
+        <label for="foto" class="form-label">Foto</label>
+        <input name="foto" type="file" id="foto" accept=".jpg,.png">
+      </div>
+
       <button type="submit" class="btn btn-success">Simpan Perubahan</button>
       <a href="{{ route('mahasiswa.index') }}" class="btn btn-secondary">Batal</a>
     </form>
